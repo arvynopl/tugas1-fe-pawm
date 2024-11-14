@@ -1,22 +1,3 @@
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // Check for error message in URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const error = urlParams.get('error');
-        
-        if (error) {
-            alert(decodeURIComponent(error));
-        }
-    });
-</script>
-
-<script type="module">
-    import { handleLogin } from './js/auth.js';
-    
-    // Add event listener to form
-    document.getElementById('signInForm').addEventListener('submit', handleLogin);
-</script>
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -51,38 +32,5 @@
             </form>
         </div>
     </main>
-
-    <script type="module">
-        document.getElementById('signInForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const nim = document.getElementById('nim').value;
-            const password = document.getElementById('password').value;
-
-            try {
-                const response = await fetch('your-backend-url/api/auth/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ nim, password })
-                });
-
-                if (!response.ok) {
-                    const error = await response.json();
-                    throw new Error(error.message);
-                }
-
-                const data = await response.json();
-                localStorage.setItem('token', data.token);
-                localStorage.setItem('nim', data.user.nim);
-                
-                // Redirect to home page
-                window.location.href = 'page-home.html';
-            } catch (error) {
-                alert(error.message || 'Login failed. Please try again.');
-            }
-        });
-    </script>
 </body>
 </html>
